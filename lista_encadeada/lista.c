@@ -29,7 +29,7 @@ Lista *CriaLista()
 
 void InsereLista(Lista *l, Produto *prod)
 {
-    Celula *novo = calloc(sizeof(Celula), 1);
+    Celula *novo = calloc(1, sizeof(Celula));
 
     if (l->fim == NULL)
     {
