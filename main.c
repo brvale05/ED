@@ -1,4 +1,5 @@
 #include "leitor.h"
+#include "livro.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -22,16 +23,40 @@ int main(int argc, char *argv[])
 
         if(reader == NULL)
         {
+            flag = 0; //set flag
             break;
         }
 
         ListPushBack(readers_list, reader);
     }
 
-    ListPrint(readers_list, ReaderPrint);
+    //ListPrint(readers_list, ReaderPrint);
     ListDestroy(readers_list, ReaderDestroy);
 
     CloseFile(readers_file);
+
+    FILE *books_file = OpenFile(argv[1], "livros.txt");
+
+    Lista *books_list = ListConstruct();
+
+    while (1)
+    {
+        Livro *book = Le_Book(books_file, flag);
+        flag++;
+
+        if(book == NULL)
+        {
+            flag = 0;
+            break;
+        }
+
+        ListPushBack(books_list, book);
+    }
+    
+    //ListPrint(books_list, BookPrint);
+    ListDestroy(books_list, BookDestroy);
+
+    CloseFile(books_file);
 
     return 0;
 }
