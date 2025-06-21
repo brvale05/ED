@@ -14,4 +14,16 @@ Leitor *Le_Reader(FILE *r_file, int flag);
 
 void ReaderPrint(void *data);
 
+int ReaderCompare(void *data, int id);
+
+Lista *GetLidosList(Leitor *l);
+
+Lista *GetWishList(Leitor *l);
+
+Lista *GetRecList(Leitor *l);
+
+char *GetReaderName(Leitor *l);
+
+
+
 #endif

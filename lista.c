@@ -44,7 +44,7 @@ void ListPushBack(Lista *list, void *data)
     }
 }
 
-void ListDestroy(Lista *list, fptr_destroy destroy)
+void ListDestroy(Lista *list, int libera_flag, fptr_destroy destroy)
 {
     Celula *antes = NULL;
     Celula *atual = list->inicio;
@@ -55,6 +55,7 @@ void ListDestroy(Lista *list, fptr_destroy destroy)
         {
             antes = atual;
             atual = atual->prox;
+            if(libera_flag)
             destroy(antes->data);
             free(antes);
         }
@@ -63,7 +64,21 @@ void ListDestroy(Lista *list, fptr_destroy destroy)
     }
 }
 
-void CharDestroy(void *data)
+void *ListSearch(Lista *list, int id, fptr_compare compara)
+{
+    Celula *antes = NULL;
+    Celula *atual = list->inicio;
+
+    while (atual != NULL && !compara(atual->data, id))
+    {
+        antes = atual;
+        atual = atual->prox;
+    }
+
+    return atual->data;
+}
+
+void StrDestroy(void *data)
 {
     if (((char *)data))
     {
@@ -83,7 +98,7 @@ void ListPrint(Lista *list, fptr_print imprime)
     }
 }
 
-void CharPrint(void *data)
+void StrPrint(void *data)
 {
-    printf(";%s", ((char*)data));
+    printf(";%s", ((char *)data));
 }

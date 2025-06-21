@@ -98,3 +98,16 @@ void BookPrint(void *data)
     printf("%s;", ((Livro *)data)->genero);
     printf("%d\n", ((Livro *)data)->ano);
 }
+
+int BookCompare(void *data, int id)
+{
+    if(((Livro*)data)->id == id)
+    return 1;
+
+    return 0;
+}
+
+char *GetBookTitle(Livro *b)
+{
+    return b->titulo;
+}

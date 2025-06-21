@@ -12,4 +12,8 @@ void BookDestroy(void *dado);
 
 void BookPrint(void *data);
 
+int BookCompare(void *data, int id);
+
+char *GetBookTitle(Livro *b);
+
 #endif

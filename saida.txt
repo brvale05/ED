@@ -1,0 +1,14 @@
+Alice leu "O Iluminado"
+Alice leu "Garota Exemplar"
+Bob leu "O Nome da Rosa"
+Bob leu "Garota Exemplar"
+Clara leu "Drácula"
+Clara deseja ler "Assassinato no Expresso Oriente"
+Alice deseja ler "Orgulho e Preconceito"
+Bob deseja ler "Drácula"
+Alice recomenda "O Iluminado" para Bob
+Bob recomenda "O Nome da Rosa" para Alice
+Bob recomenda "O Senhor dos Anéis: A Sociedade do Anel" para Clara
+Clara recomenda "A Culpa é das Estrelas" para Bob
+Clara aceita recomendação "O Senhor dos Anéis: A Sociedade do Anel" de Bob
+Alice rejeita recomendação "O Nome da Rosa" de Bob
