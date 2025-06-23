@@ -1,5 +1,6 @@
 #include "leitor.h"
 #include "livro.h"
+#include "grafo.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -19,7 +20,8 @@ void CloseFile(FILE *arq);
 
 int main(int argc, char *argv[])
 {
-    int flag = 0;
+    Grafo *gr = GrafoConstruct(20, 20);
+    int flag = 0, flag_grafo = 0;
 
     FILE *readers_file = OpenFile(argv[1], "leitores.txt");
 
@@ -30,11 +32,19 @@ int main(int argc, char *argv[])
         Leitor *reader = Le_Reader(readers_file, flag);
         flag++;
 
+        if(flag_grafo > 0)
+        {
+            
+        }
+
         if (reader == NULL)
         {
             flag = 0; // set flag
             break;
         }
+
+        Leitor *aux = reader;
+        flag_grafo++;
 
         ListPushBack(readers_list, reader);
     }

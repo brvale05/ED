@@ -1,4 +1,5 @@
 #include "lista.h"
+#include "leitor.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -7,6 +8,7 @@ struct Lista
 {
     Celula *inicio;
     Celula *fim;
+    int tam;
 };
 
 struct Celula
@@ -21,6 +23,7 @@ Lista *ListConstruct()
 
     l->inicio = NULL;
     l->fim = NULL;
+    l->tam = 0;
 
     return l;
 }
@@ -42,6 +45,8 @@ void ListPushBack(Lista *list, void *data)
         list->fim->data = data;
         list->fim->prox = NULL;
     }
+
+    list->tam++;
 }
 
 void ListDestroy(Lista *list, int libera_flag, fptr_destroy destroy)
@@ -55,8 +60,8 @@ void ListDestroy(Lista *list, int libera_flag, fptr_destroy destroy)
         {
             antes = atual;
             atual = atual->prox;
-            if(libera_flag)
-            destroy(antes->data);
+            if (libera_flag)
+                destroy(antes->data);
             free(antes);
         }
 
@@ -101,4 +106,68 @@ void ListPrint(Lista *list, fptr_print imprime)
 void StrPrint(void *data)
 {
     printf(";%s", ((char *)data));
+}
+
+int StrCompare(const void *a, const void *b)
+{
+    return strcmp(((char*)a), ((char*)b));
+}
+
+int GetListSize(Lista *list)
+{
+    return list->tam;
+}
+
+void *GetDataCel(Celula *c)
+{
+    return c->data;
+}
+
+int ListCompare(Lista *l1, Lista *l2, int (*compare)(const void *, const void *))
+{
+    Celula *c1 = l1->inicio;
+    Celula *c2 = l2->inicio;
+
+    while (c1 != NULL)
+    {
+        if (CellCompare(c1, c2, compare))
+        {
+            return 1;
+        }
+        c1 = c1->prox;
+    }
+
+    return 0;
+}
+
+int CellCompare(Celula *c1, Celula *c2, int (*compare)(const void *, const void *))
+{
+    while (c2 != NULL)
+    {
+        if (!compare(GetDataCel(c1), GetDataCel(c2)))
+        {
+            return 1;
+        }
+        c2 = c2->prox;
+    }
+
+    return 0;
+}
+
+void UpdateAfinidade(Lista *readers_list)
+{
+    Celula *c1 = readers_list->inicio;
+    Celula *c2 = readers_list->inicio->prox;
+
+    while (1)
+    {
+        while (c1 != NULL)
+        {
+            if (ListCompare(GetPrefList(GetDataCel(c1)), GetPrefList(GetDataCel(c2)), StrCompare))
+            {
+
+            }
+            c1 = c1->prox;
+        }
+    }
 }

@@ -16,6 +16,8 @@ void ReaderPrint(void *data);
 
 int ReaderCompare(void *data, int id);
 
+Lista *GetPrefList(Leitor *l);
+
 Lista *GetLidosList(Leitor *l);
 
 Lista *GetWishList(Leitor *l);

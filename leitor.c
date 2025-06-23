@@ -11,7 +11,7 @@ struct Leitor
     Lista *lidos_list;
     Lista *wish_list;
     Lista *rec_list;
-    //Lista *afin_list;
+    Lista *afin_list;
 };
 
 Leitor *ReaderConstruct(int id, char *nome, Lista *p_list)
@@ -24,7 +24,7 @@ Leitor *ReaderConstruct(int id, char *nome, Lista *p_list)
     l->lidos_list = ListConstruct();
     l->wish_list = ListConstruct();
     l->rec_list = ListConstruct();
-    //l->afin_list = ListConstruct();
+    l->afin_list = ListConstruct();
 
     return l;
 }
@@ -42,6 +42,7 @@ void ReaderDestroy(void *data)
         ListDestroy(((Leitor *)data)->lidos_list, 0, BookDestroy);
         ListDestroy(((Leitor *)data)->wish_list, 0, BookDestroy);
         ListDestroy(((Leitor *)data)->rec_list, 0, BookDestroy);
+        ListDestroy(((Leitor *)data)->rec_list, 0, ReaderDestroy);
 
         free(((Leitor *)data));
     }
@@ -113,6 +114,11 @@ int ReaderCompare(void *data, int id)
     return 0;
 }
 
+Lista *GetPrefList(Leitor *l)
+{
+    return l->pref_list;
+}
+
 Lista *GetLidosList(Leitor *l)
 {
     return l->lidos_list;
@@ -132,4 +138,6 @@ char *GetReaderName(Leitor *l)
 {
     return l->nome;
 }
+
+
 

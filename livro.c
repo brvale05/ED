@@ -111,3 +111,4 @@ char *GetBookTitle(Livro *b)
 {
     return b->titulo;
 }
+
