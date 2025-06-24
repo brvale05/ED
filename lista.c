@@ -11,12 +11,6 @@ struct Lista
     int tam;
 };
 
-struct Celula
-{
-    Celula *prox;
-    void *data;
-};
-
 Lista *ListConstruct()
 {
     Lista *l = calloc(1, sizeof(Lista));
@@ -69,18 +63,70 @@ void ListDestroy(Lista *list, int libera_flag, fptr_destroy destroy)
     }
 }
 
-void *ListSearch(Lista *list, int id, fptr_compare compara)
+void *ListSearch(Lista *list, void *id, fptr_compare compara)
+{
+    Celula *atual = list->inicio;
+
+    while (atual != NULL)
+    {
+        if (compara(atual->data, id))
+        {
+            return atual->data;
+        }
+        atual = atual->prox;
+    }
+
+    return NULL;
+}
+
+void *ListRemove(Lista *list, fptr_compare compara, void *id)
 {
     Celula *antes = NULL;
     Celula *atual = list->inicio;
 
-    while (atual != NULL && !compara(atual->data, id))
+    while (atual != NULL)
     {
+        if (compara(atual->data, id))
+        {
+            break;
+        }
         antes = atual;
         atual = atual->prox;
     }
 
-    return atual->data;
+    if (atual == NULL)
+        return NULL;
+
+    void *data = atual->data;
+
+    if (list->inicio == atual && list->fim == atual)
+    {
+        list->inicio = list->fim = NULL;
+        free(atual);
+        return data;
+    }
+
+    if (atual == list->fim)
+    {
+        list->fim = antes;
+        list->fim->prox = NULL;
+       
+        free(atual);
+        return data;
+    }
+
+    if (atual == list->inicio)
+    {
+        list->inicio = list->inicio->prox;
+        free(atual);
+    }
+    else
+    {
+        antes = atual->prox;
+        free(atual);
+    }
+
+    return data;
 }
 
 void StrDestroy(void *data)
@@ -91,14 +137,13 @@ void StrDestroy(void *data)
     }
 }
 
-void ListPrint(Lista *list, fptr_print imprime)
+void ListPrint(Lista *list, fptr_print imprime, FILE *stdout_f)
 {
-    Celula *antes = NULL;
     Celula *atual = list->inicio;
 
     while (atual != NULL)
     {
-        imprime(atual->data);
+        imprime(atual->data, stdout_f);
         atual = atual->prox;
     }
 }
@@ -108,9 +153,15 @@ void StrPrint(void *data)
     printf(";%s", ((char *)data));
 }
 
-int StrCompare(const void *a, const void *b)
+int StrCompare(void *a, void *b)
 {
-    return strcmp(((char*)a), ((char*)b));
+    char *gen1 = (char*)a;
+    char *gen2 = (char*)b;
+
+    if(!strcmp(gen1, gen2))
+    return 1;
+
+    return 0;
 }
 
 int GetListSize(Lista *list)
@@ -118,56 +169,12 @@ int GetListSize(Lista *list)
     return list->tam;
 }
 
-void *GetDataCel(Celula *c)
+void *GetDataCell(Celula *c)
 {
     return c->data;
 }
 
-int ListCompare(Lista *l1, Lista *l2, int (*compare)(const void *, const void *))
+Celula *GetFirstCell(Lista *l)
 {
-    Celula *c1 = l1->inicio;
-    Celula *c2 = l2->inicio;
-
-    while (c1 != NULL)
-    {
-        if (CellCompare(c1, c2, compare))
-        {
-            return 1;
-        }
-        c1 = c1->prox;
-    }
-
-    return 0;
-}
-
-int CellCompare(Celula *c1, Celula *c2, int (*compare)(const void *, const void *))
-{
-    while (c2 != NULL)
-    {
-        if (!compare(GetDataCel(c1), GetDataCel(c2)))
-        {
-            return 1;
-        }
-        c2 = c2->prox;
-    }
-
-    return 0;
-}
-
-void UpdateAfinidade(Lista *readers_list)
-{
-    Celula *c1 = readers_list->inicio;
-    Celula *c2 = readers_list->inicio->prox;
-
-    while (1)
-    {
-        while (c1 != NULL)
-        {
-            if (ListCompare(GetPrefList(GetDataCel(c1)), GetPrefList(GetDataCel(c2)), StrCompare))
-            {
-
-            }
-            c1 = c1->prox;
-        }
-    }
+    return l->inicio;
 }

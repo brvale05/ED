@@ -31,7 +31,7 @@ Livro *Le_Book(FILE *b_file, int flag)
     char *token, *titulo, *autor, *genero;
 
     if (!flag)
-    fgets(linha, 200, b_file);
+        fgets(linha, 200, b_file);
 
     while (fgets(linha, 200, b_file) != NULL)
     {
@@ -63,7 +63,6 @@ Livro *Le_Book(FILE *b_file, int flag)
         Livro *l = BookConstruct(id, titulo, autor, genero, ano);
 
         return l;
-
     }
 
     return NULL;
@@ -90,19 +89,12 @@ void BookDestroy(void *data)
     }
 }
 
-void BookPrint(void *data)
+int BookCompare(void *data, void *id)
 {
-    printf("%d;", ((Livro *)data)->id);
-    printf("%s;", ((Livro *)data)->titulo);
-    printf("%s;", ((Livro *)data)->autor);
-    printf("%s;", ((Livro *)data)->genero);
-    printf("%d\n", ((Livro *)data)->ano);
-}
+    int *chave = (int *)id;
 
-int BookCompare(void *data, int id)
-{
-    if(((Livro*)data)->id == id)
-    return 1;
+    if (((Livro *)data)->id == *chave)
+        return 1;
 
     return 0;
 }
@@ -112,3 +104,7 @@ char *GetBookTitle(Livro *b)
     return b->titulo;
 }
 
+int GetBookId(Livro *b)
+{
+    return b->id;
+}
