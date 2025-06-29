@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+
 #include "livro.h"
 
 struct Livro
@@ -87,6 +88,11 @@ void BookDestroy(void *data)
 
         free(((Livro *)data));
     }
+}
+
+void PrintBook(void *data, FILE *stdout_f)
+{
+    fprintf(stdout_f, "%s", ((Livro*)data)->titulo);
 }
 
 int BookCompare(void *data, void *id)

@@ -11,6 +11,54 @@ struct booked
     Lista *livros;
 };
 
+static void Le_Arquivo_Leitores(char *caminho, Lista *readers_list)
+{
+    FILE *readers_file = OpenFile(caminho, "leitores.txt", 'r');
+
+    int flag = 0;
+
+    while (1)
+    {
+        Leitor *reader = Le_Reader(readers_file, flag);
+        flag++;
+
+        if (reader == NULL)
+        {
+            flag = 0; // set flag
+            break;
+        }
+
+        ListPushBack(readers_list, reader);
+    }
+
+    CloseFile(readers_file);
+
+}
+
+static void Le_Arquivo_Livros(char *caminho, Lista *books_list)
+{
+    FILE *books_file = OpenFile(caminho, "livros.txt", 'r');
+
+    int flag = 0;
+
+    while (1)
+    {
+        Livro *book = Le_Book(books_file, flag);
+        flag++;
+
+        if (book == NULL)
+        {
+            flag = 0;
+            break;
+        }
+
+        ListPushBack(books_list, book);
+    }
+
+    CloseFile(books_file);
+}
+
+
 tBooked *BookedConstruct(char *caminho)
 {
     Lista *readers_list = ListConstruct();
@@ -162,60 +210,12 @@ void ExecutaBooked(int *vet, FILE *stdout_file, tBooked *booked)
         GrafoSearchAfinidades(reader1, reader2, stdout_file);
         break;
     case 8:
-        /* code */
+        BookedPrint(booked, stdout_file);
         break;
 
     default:
         break;
     }
-}
-
-
-static void Le_Arquivo_Leitores(char *caminho, Lista *readers_list)
-{
-    FILE *readers_file = OpenFile(caminho, "leitores.txt", 'r');
-
-    int flag = 0;
-
-    while (1)
-    {
-        Leitor *reader = Le_Reader(readers_file, flag);
-        flag++;
-
-        if (reader == NULL)
-        {
-            flag = 0; // set flag
-            break;
-        }
-
-        ListPushBack(readers_list, reader);
-    }
-
-    CloseFile(readers_file);
-
-}
-
-static void Le_Arquivo_Livros(char *caminho, Lista *books_list)
-{
-    FILE *books_file = OpenFile(caminho, "livros.txt", 'r');
-
-    int flag = 0;
-
-    while (1)
-    {
-        Livro *book = Le_Book(books_file, flag);
-        flag++;
-
-        if (book == NULL)
-        {
-            flag = 0;
-            break;
-        }
-
-        ListPushBack(books_list, book);
-    }
-
-    CloseFile(books_file);
 }
 
 void UpdateAfinidades(tBooked *booked)
@@ -230,6 +230,12 @@ void UpdateAfinidades(tBooked *booked)
             UpdateAfinidades_Aux(cell_atual->data, cell_prox->data);
         }
     }
+}
+
+void BookedPrint(tBooked *booked,FILE *stdout_file)
+{
+    fprintf(stdout_file, "Imprime toda a BookED\n\n");
+    ListPrint(booked->leitores, PrintReader, stdout_file, 0);
 }
 
 

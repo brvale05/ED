@@ -1,5 +1,6 @@
 #include "lista.h"
 #include "leitor.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -110,7 +111,7 @@ void *ListRemove(Lista *list, fptr_compare compara, void *id)
     {
         list->fim = antes;
         list->fim->prox = NULL;
-       
+
         free(atual);
         return data;
     }
@@ -129,44 +130,27 @@ void *ListRemove(Lista *list, fptr_compare compara, void *id)
     return data;
 }
 
-void StrDestroy(void *data)
-{
-    if (((char *)data))
-    {
-        free(((char *)data));
-    }
-}
-
-void ListPrint(Lista *list, fptr_print imprime, FILE *stdout_f)
+void ListPrint(Lista *list, fptr_print imprime, FILE *stdout_f, int flag_comma)
 {
     Celula *atual = list->inicio;
 
     while (atual != NULL)
     {
         imprime(atual->data, stdout_f);
+        
+        if(atual->prox == NULL)
+        break;
+
+        if(flag_comma)
+        {
+            fprintf(stdout_f, ", ");
+        }
+
         atual = atual->prox;
     }
-}
 
-void StrPrint(void *data)
-{
-    printf(";%s", ((char *)data));
-}
+    fprintf(stdout_f, "\n");
 
-int StrCompare(void *a, void *b)
-{
-    char *gen1 = (char*)a;
-    char *gen2 = (char*)b;
-
-    if(!strcmp(gen1, gen2))
-    return 1;
-
-    return 0;
-}
-
-int GetListSize(Lista *list)
-{
-    return list->tam;
 }
 
 void *GetDataCell(Celula *c)

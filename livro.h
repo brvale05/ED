@@ -10,7 +10,7 @@ Livro *Le_Book(FILE *b_file, int flag);
 
 void BookDestroy(void *dado);
 
-// void BookPrint(void *data, FILE *stdout_f);
+void PrintBook(void *data, FILE *stdout_f);
 
 int BookCompare(void *data, void *id);
 

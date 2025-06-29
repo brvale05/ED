@@ -18,6 +18,8 @@ Leitor *Le_Reader(FILE *r_file, int flag);
 
 int ReaderCompare(void *data, void *id);
 
+void PrintReader(void *data, FILE *stdout_f);
+
 Lista *GetPrefList(Leitor *l);
 
 Lista *GetLidosList(Leitor *l);
@@ -32,7 +34,7 @@ int GetReaderId(Leitor *l);
 
 void UpdateAfinidades_Aux(Leitor *l1, Leitor *l2);
 
-void PrintBookTitle(Lista *books_list, FILE *stdout_file);
+void Imprime_Livros_Em_Comum(Lista *books_list, FILE *stdout_file);
 
 void Descobre_Livros_Em_Comum(Leitor *l1, Leitor *l2, FILE *stdout_file);
 

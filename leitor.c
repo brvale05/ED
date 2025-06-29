@@ -11,6 +11,10 @@ struct Leitor
     Lista *afin_list;
 };
 
+static void PreferenceDestroy(void *data);
+static int PreferenceCompare(void *a, void *b);
+static void AfinidadePrint(void *data, FILE *stdout_file);
+
 Leitor *ReaderConstruct(int id, char *nome, Lista *p_list)
 {
     Leitor *l = calloc(1, sizeof(Leitor));
@@ -35,7 +39,7 @@ void ReaderDestroy(void *data)
             free(((Leitor *)data)->nome);
         }
 
-        ListDestroy(((Leitor *)data)->pref_list, 1, StrDestroy);
+        ListDestroy(((Leitor *)data)->pref_list, 1, PreferenceDestroy);
         ListDestroy(((Leitor *)data)->lidos_list, 0, BookDestroy);
         ListDestroy(((Leitor *)data)->wish_list, 0, BookDestroy);
         ListDestroy(((Leitor *)data)->rec_list, 0, BookDestroy);
@@ -90,7 +94,7 @@ Leitor *Le_Reader(FILE *r_file, int flag)
         return l;
     }
 
-    ListDestroy(pref_list, 1, StrDestroy);
+    ListDestroy(pref_list, 1, PreferenceDestroy);
 
     return NULL;
 }
@@ -103,6 +107,25 @@ int ReaderCompare(void *data, void *id)
         return 1;
 
     return 0;
+}
+
+void PrintReader(void *data, FILE *stdout_f)
+{
+    fprintf(stdout_f, "Leitor: %s\n", ((Leitor*)data)->nome);
+
+    fprintf(stdout_f, "Lidos: ");
+    ListPrint(((Leitor*)data)->lidos_list, PrintBook, stdout_f, 1);
+
+    fprintf(stdout_f, "Desejados: ");
+    ListPrint(((Leitor*)data)->wish_list, PrintBook, stdout_f, 1);
+
+    fprintf(stdout_f, "Recomendacoes: ");
+    ListPrint(((Leitor*)data)->rec_list, PrintBook, stdout_f, 1);
+
+    fprintf(stdout_f, "Afinidades: ");
+    ListPrint(((Leitor*)data)->afin_list, AfinidadePrint, stdout_f, 1);
+
+    fprintf(stdout_f, "\n");
 }
 
 Lista *GetPrefList(Leitor *l)
@@ -148,7 +171,7 @@ void UpdateAfinidades_Aux(Leitor *l1, Leitor *l2)
     {
         char *genero = GetDataCell(cell_pref_l1);
 
-        if (ListSearch(l2->pref_list, genero, StrCompare))
+        if (ListSearch(l2->pref_list, genero, PreferenceCompare))
         {
             ListPushBack(l1->afin_list, l2);
             ListPushBack(l2->afin_list, l1);
@@ -157,7 +180,7 @@ void UpdateAfinidades_Aux(Leitor *l1, Leitor *l2)
     }
 }
 
-void PrintBookTitle(Lista *books_list, FILE *stdout_file)
+void Imprime_Livros_Em_Comum(Lista *books_list, FILE *stdout_file)
 {
     Celula *cell = GetFirstCell(books_list);
     Livro *book;
@@ -199,7 +222,7 @@ void Descobre_Livros_Em_Comum(Leitor *l1, Leitor *l2, FILE *stdout_file)
     }
     else
     {
-        PrintBookTitle(livros_em_comum, stdout_file);
+        Imprime_Livros_Em_Comum(livros_em_comum, stdout_file);
     }
 
     ListDestroy(livros_em_comum, 0, BookDestroy);
@@ -333,4 +356,28 @@ void RecusaRecomendacao(Leitor *reader_origem, Leitor *reader_destino, int id, F
     }
 
     fprintf(stdout_file, "%s rejeita recomendação \"%s\" de %s\n", reader_destino->nome, GetBookTitle(book), reader_origem->nome);
+}
+
+void PreferenceDestroy(void *data)
+{
+    if (((char *)data))
+    {
+        free(((char *)data));
+    }
+}
+
+int PreferenceCompare(void *a, void *b)
+{
+    char *gen1 = (char*)a;
+    char *gen2 = (char*)b;
+
+    if(!strcmp(gen1, gen2))
+    return 1;
+
+    return 0;
+}
+
+void AfinidadePrint(void *data, FILE *stdout_file)
+{
+    fprintf(stdout_file, "%s", ((Leitor*)data)->nome);
 }
