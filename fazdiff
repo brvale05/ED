@@ -1,5 +1,0 @@
-./teste test0 > outprog/test0
-./teste test1 > outprog/test1
-./teste test2 > outprog/test2
-./teste test3 > outprog/test3
-diff output / outprog /
