@@ -2,6 +2,9 @@
  * =======================================================
  *  Arquivo: main.c
  *  Autor: Bruno Vale Lourenço
+ *  OBSERVAÇÕES: considerei que o caminho passado para leitura das pastas de entrada seria através do argv[1], então rodei o 
+ *  programa assim: ./meu_programa test0, ./meu_programa test1 ...etc. O único arquivo de saída gerado é o "saida.txt", que é criado de acordo com o "test0; test1 ..." da entrada e produzido na pasta raíz.
+ *  O arquivo "saida.txt" é sobrescrito toda vez que o programa é rodado.
  * =======================================================
  */
 #include <stdlib.h>
