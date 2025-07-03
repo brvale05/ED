@@ -1,3 +1,9 @@
+/*
+ * =======================================================
+ *  Arquivo: leitor.c
+ *  Autor: Bruno Vale Lourenço
+ * =======================================================
+ */
 #include "leitor.h"
 
 struct Leitor
@@ -128,53 +134,53 @@ void PrintReader(void *data, FILE *stdout_f)
     fprintf(stdout_f, "\n");
 }
 
-Lista *GetPrefList(Leitor *l)
+Lista *GetPrefList(Leitor *reader)
 {
-    return l->pref_list;
+    return reader->pref_list;
 }
 
-Lista *GetLidosList(Leitor *l)
+Lista *GetLidosList(Leitor *reader)
 {
-    return l->lidos_list;
+    return reader->lidos_list;
 }
 
-Lista *GetWishList(Leitor *l)
+Lista *GetWishList(Leitor *reader)
 {
-    return l->wish_list;
+    return reader->wish_list;
 }
 
-Lista *GetRecList(Leitor *l)
+Lista *GetRecList(Leitor *reader)
 {
-    return l->rec_list;
+    return reader->rec_list;
 }
 
-char *GetReaderName(Leitor *l)
+char *GetReaderName(Leitor *reader)
 {
-    return l->nome;
+    return reader->nome;
 }
 
-int GetReaderId(Leitor *l)
+int GetReaderId(Leitor *reader)
 {
-    return l->id;
+    return reader->id;
 }
 
-void UpdateAfinidades_Aux(Leitor *l1, Leitor *l2)
+void UpdateAfinidades_Aux(Leitor *reader1, Leitor *reader2)
 {
-    int id_l2 = GetReaderId(l2);
+    int id_l2 = GetReaderId(reader2);
 
-    if (ListSearch(l1->afin_list, &id_l2, ReaderCompare))
+    if (ListSearch(reader1->afin_list, &id_l2, ReaderCompare))
         return;
 
-    Celula *cell_pref_l1 = GetFirstCell(l1->pref_list);
+    Celula *cell_pref_l1 = GetFirstCell(reader1->pref_list);
 
     for (cell_pref_l1; cell_pref_l1 != NULL; cell_pref_l1 = cell_pref_l1->prox)
     {
         char *genero = GetDataCell(cell_pref_l1);
 
-        if (ListSearch(l2->pref_list, genero, PreferenceCompare))
+        if (ListSearch(reader2->pref_list, genero, PreferenceCompare))
         {
-            ListPushBack(l1->afin_list, l2);
-            ListPushBack(l2->afin_list, l1);
+            ListPushBack(reader1->afin_list, reader2);
+            ListPushBack(reader2->afin_list, reader1);
             return;
         }
     }
@@ -197,23 +203,23 @@ void Imprime_Livros_Em_Comum(Lista *books_list, FILE *stdout_file)
     fprintf(stdout_file, "\n");
 }
 
-void Descobre_Livros_Em_Comum(Leitor *l1, Leitor *l2, FILE *stdout_file)
+void Descobre_Livros_Em_Comum(Leitor *reader1, Leitor *reader2, FILE *stdout_file)
 {
     Lista *livros_em_comum = ListConstruct();
-    Celula *cell_leitor1 = GetFirstCell(l1->lidos_list);
+    Celula *cell_leitor1 = GetFirstCell(reader1->lidos_list);
     int book_id;
 
     for (cell_leitor1; cell_leitor1 != NULL; cell_leitor1 = cell_leitor1->prox)
     {
         book_id = GetBookId(cell_leitor1->data);
 
-        if (ListSearch(l2->lidos_list, &book_id, BookCompare))
+        if (ListSearch(reader2->lidos_list, &book_id, BookCompare))
         {
             ListPushBack(livros_em_comum, GetDataCell(cell_leitor1));
         }
     }
 
-    fprintf(stdout_file, "Livros em comum entre %s e %s: ", l1->nome, l2->nome);
+    fprintf(stdout_file, "Livros em comum entre %s e %s: ", reader1->nome, reader2->nome);
     cell_leitor1 = GetFirstCell(livros_em_comum);
 
     if (cell_leitor1 == NULL)
@@ -251,7 +257,8 @@ int GrafoSearch(Leitor *leitor_origem, Leitor *leitor_alvo, Lista *visitados)
     ListPushBack(visitados, leitor_origem);
 
     int id_leitor_alvo = GetReaderId(leitor_alvo);
-    // procura leitor alvo na lista de afinidades do leitor origem
+    
+    // Procura leitor alvo na lista de afinidades do leitor origem
     Leitor *destino = ListSearch(leitor_origem->afin_list, &id_leitor_alvo, ReaderCompare);
 
     // Se destino != NULL = Encontrou o leitor

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "string.h": "c",
-        "produto.h": "c"
+        "produto.h": "c",
+        "stdio.h": "c"
     }
 }

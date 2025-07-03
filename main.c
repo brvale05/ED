@@ -1,3 +1,9 @@
+/*
+ * =======================================================
+ *  Arquivo: main.c
+ *  Autor: Bruno Vale Lourenço
+ * =======================================================
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -7,12 +13,13 @@
 int main(int argc, char *argv[])
 {
     int stop, flag = 0;
-    int vet_comandos[4];
+    int vet_comandos[4]; //guarda cada ID dos comandos.
 
     tBooked *booked = BookedConstruct(argv[1]);
     UpdateAfinidades(booked);
 
     FILE *comandos_file = OpenFile(argv[1], "comandos.txt", 'r');
+    //arquivo de saída.
     FILE *stdout_file = OpenFile(" ", "saida.txt", 'w');
 
     while (1)
