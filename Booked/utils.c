@@ -9,7 +9,7 @@ FILE *OpenFile(char *diretorio, char *filename, char modo)
     {
         sprintf(stream, "%s/%s", diretorio, filename);
 
-        arq = fopen(stream, "r");
+        arq = fopen(filename, "r");
     }
     else
     {
