@@ -7,6 +7,7 @@
 struct Arvore
 {
     char caracter;
+    char cod_binario[10];
     int num_ocorrencias;
     int eh_folha; // 1 para folha e 0 caso nao seja
     Arvore *esq;
@@ -103,10 +104,31 @@ int TreeHeight(Arvore *raiz)
     return maiorAltura + 1;
 }
 
-bitmap *BinaryCode(Arvore *raiz, int *array, int id)
+void BinaryCodeGenerator(Arvore *raiz, char *codigo, int id_profundidade)
 {
-    if(raiz == NULL)
+
+    if(raiz->eh_folha)
     {
+        for(int i = 0; i <= id_profundidade; i++)
+        {
+            raiz->cod_binario[i] = codigo[i];
+            printf("%c", raiz->cod_binario[i]);
+        }
+
+        printf("\n");
+        
         return;
+
     }
+
+    if(raiz)
+    {
+        codigo[id_profundidade] = '0';
+        BinaryCodeGenerator(raiz->esq, codigo, id_profundidade + 1);
+
+        codigo[id_profundidade] = '1';
+        BinaryCodeGenerator(raiz->dir, codigo, id_profundidade + 1);
+    }
+
+    return;
 }

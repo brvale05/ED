@@ -16,8 +16,12 @@ int main(int argc, char **argv)
 
     Arvore *binary_tree = BinaryTreeConstruct(p);
     BinaryTreePrint(binary_tree);
+    printf("\n");
 
-    printf("%d", TreeHeight(binary_tree));
+    char codigo[5];
+    GeraCodigo(binary_tree, codigo, 0);
+
+    //printf("%d", TreeHeight(binary_tree));
 
     binary_tree = BinaryTreeDestroy(binary_tree);
     PilhaDestroy(p);

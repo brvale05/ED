@@ -19,6 +19,6 @@ int TreesCompare(const void *t1, const void *t2);
 
 int TreeHeight(Arvore *raiz);
 
-bitmap *BinaryCode(Arvore *raiz, int *array, int id);
+void BinaryCodeGenerator(Arvore *raiz, char *codigo, int id_profundidade);
 
 #endif

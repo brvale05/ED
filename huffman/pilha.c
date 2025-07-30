@@ -54,7 +54,7 @@ void OrdenaPilha(Pilha *p)
 
 void PilhaVectorUpdate(Pilha *p, int *array)
 {
-    for (int i = 32; i < 128; i++)
+    for (int i = 0; i < 128; i++)
     {
         if (array[i] > 0)
         {

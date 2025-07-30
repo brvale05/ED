@@ -22,7 +22,7 @@ void AsciiCount(int *array, FILE *entrada_file)
 
     while (!feof(entrada_file))
     {
-        fscanf(entrada_file, "%c", &car);
+        fread(&car, sizeof(char), 1, entrada_file);
 
         if(feof(entrada_file))
         break;
