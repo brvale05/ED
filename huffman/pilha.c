@@ -39,22 +39,22 @@ void PilhaPush(Pilha *p, Arvore *arv)
     }
 }
 
-// void PilhaPrint(Pilha *p)
-// {
-//     for (int i = 0; i < p->topo; i++)
-//     {
-//         TreePrint(p->trees[i]);
-//     }
-// }
+void PilhaPrint(Pilha *p)
+{
+    for (int i = 0; i < p->topo; i++)
+    {
+        TreePrint(p->trees[i]);
+    }
+}
 
 void OrdenaPilha(Pilha *p)
 {
     qsort(p->trees, p->topo, sizeof(Arvore *), TreesCompare);
 }
 
-void PilhaVectorUpdate(Pilha *p, int *array)
+void PilhaVectorUpdate(Pilha *p, unsigned int *array)
 {
-    for (int i = 0; i < 128; i++)
+    for (int i = 0; i < TAM_MAX; i++)
     {
         if (array[i] > 0)
         {

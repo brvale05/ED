@@ -1,6 +1,6 @@
 #ifndef PILHA_H
 #define PILHA_H
-#define TAM_MAX 1000
+#define TAM_MAX 256
 
 #include "arvore.h"
 
@@ -12,11 +12,11 @@ void PilhaDestroy(Pilha *p);
 
 void PilhaPush(Pilha *p, Arvore *arv);
 
-//void PilhaPrint(Pilha *p);
+void PilhaPrint(Pilha *p);
 
 void OrdenaPilha(Pilha *p);
 
-void PilhaVectorUpdate(Pilha *p, int *array);   
+void PilhaVectorUpdate(Pilha *p, unsigned int *array);
 
 Arvore *BinaryTreeConstruct(Pilha *p);
 

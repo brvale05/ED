@@ -7,7 +7,6 @@
 struct Arvore
 {
     char caracter;
-    char cod_binario[10];
     int num_ocorrencias;
     int eh_folha; // 1 para folha e 0 caso nao seja
     Arvore *esq;
@@ -36,10 +35,10 @@ Arvore *TreePushBack(Arvore *raiz1, Arvore *raiz2)
     return arv;
 }
 
-// void TreePrint(Arvore *arv)
-// {
-//     printf("codigo: %d; caracter: %c; ocorrencias: %d\n", arv->caracter, arv->caracter, arv->num_ocorrencias);
-// }
+void TreePrint(Arvore *arv)
+{
+    printf("codigo: %d; caracter: %c; ocorrencias: %d\n", arv->caracter, arv->caracter, arv->num_ocorrencias);
+}
 
 void BinaryTreePrint(Arvore *arv)
 {
@@ -104,31 +103,73 @@ int TreeHeight(Arvore *raiz)
     return maiorAltura + 1;
 }
 
-void BinaryCodeGenerator(Arvore *raiz, char *codigo, int id_profundidade)
+void GetTreeBitsSize(Arvore *raiz, int id_profundidade, unsigned int *size)
 {
 
-    if(raiz->eh_folha)
+    if (raiz->eh_folha)
     {
-        for(int i = 0; i <= id_profundidade; i++)
-        {
-            raiz->cod_binario[i] = codigo[i];
-            printf("%c", raiz->cod_binario[i]);
-        }
-
-        printf("\n");
-        
+        *size = *size + id_profundidade + 1;
         return;
-
     }
 
-    if(raiz)
+    if (raiz)
     {
-        codigo[id_profundidade] = '0';
-        BinaryCodeGenerator(raiz->esq, codigo, id_profundidade + 1);
-
-        codigo[id_profundidade] = '1';
-        BinaryCodeGenerator(raiz->dir, codigo, id_profundidade + 1);
+        *size = *size + 1;
+        GetTreeBitsSize(raiz->esq, id_profundidade + 1, size);
+        *size = *size + 1;
+        GetTreeBitsSize(raiz->dir, id_profundidade + 1, size);
     }
 
     return;
 }
+
+void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap *tree_bitmap)
+{
+
+    if (EhFolha(raiz))
+    {
+        bitmapAppendLeastSignificantBit(tree_bitmap, '1');
+
+        for(int i = 0; i < id_profundidade; i++)
+        {
+            unsigned char bit = codigo[i];
+            bitmapAppendLeastSignificantBit(tree_bitmap, bit);
+        }
+
+        return;
+    }
+
+    if (raiz)
+    {
+        codigo[id_profundidade] = '0';
+        bitmapAppendLeastSignificantBit(tree_bitmap, '0');
+        CompactaHuffmanTree(GetLeftTree(raiz), codigo, id_profundidade + 1, tree_bitmap);
+
+        codigo[id_profundidade] = '1';
+        bitmapAppendLeastSignificantBit(tree_bitmap, '0');
+        CompactaHuffmanTree(GetRightTree(raiz), codigo, id_profundidade + 1, tree_bitmap);
+    }
+
+    return;
+}
+
+Arvore *GetLeftTree(Arvore *arv)
+{
+    return arv->esq;
+}
+
+Arvore *GetRightTree(Arvore *arv)
+{
+    return arv->dir;
+}
+
+char GetTreeChar(Arvore *arv)
+{
+    return arv->caracter;
+}
+
+int EhFolha(Arvore *arv)
+{
+    return arv->eh_folha;
+}
+

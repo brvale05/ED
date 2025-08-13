@@ -3,8 +3,10 @@
 
 #include <stdio.h>
 
-FILE *StdinRead(int *array, char *caminho);
+FILE *OpenFile(char *caminho, char *mode);
 
-void AsciiCount(int *array, FILE *entrada_file);
+void CloseFile(FILE *f);
+
+void FrequencyCount(unsigned int *array, char *caminho);
 
 #endif

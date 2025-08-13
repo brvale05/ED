@@ -1,35 +1,53 @@
 #include "utils.h"
+#include <string.h>
 #include <stdlib.h>
 
-FILE *StdinRead(int *array, char *caminho)
+FILE *OpenFile(char *caminho, char *mode)
 {
-    FILE *entrada_file = fopen(caminho, "r");
+    FILE *input_file;
+    
+    if(!strcmp(mode, "wb"))
+    {
+        strcat(caminho, ".comp");
+        input_file = fopen(caminho, mode);
+    }
+    else
+    {
+        input_file = fopen(caminho, mode);
+    }
 
-    if(!entrada_file)
+    if(!input_file)
     {
         printf("error opening file!\n");
         exit(1);
     }
 
-    return entrada_file;
+    return input_file;
 }
 
-void AsciiCount(int *array, FILE *entrada_file)
+void CloseFile(FILE *f)
+{
+    fclose(f);
+}
+
+void FrequencyCount(unsigned int *array, char *caminho)
 {    
+    FILE *input_file = OpenFile(caminho, "r");
     char car;
 
     int codigo_ascii;
 
-    while (!feof(entrada_file))
+    while (!feof(input_file))
     {
-        fread(&car, sizeof(char), 1, entrada_file);
+        fread(&car, sizeof(char), 1, input_file);
 
-        if(feof(entrada_file))
+        if(feof(input_file))
         break;
 
         codigo_ascii = car;
         array[codigo_ascii]++;
     }
 
-    fclose(entrada_file);
+    CloseFile(input_file);
 }
+
