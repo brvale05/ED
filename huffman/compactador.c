@@ -34,15 +34,19 @@ int main(int argc, char **argv)
     //atualiza o vetor e gera o codigo binario compactado de cada folha da arvore
     BinaryCodeConstruct(binary_tree, aux_code, 0, tabela_codificada, ascii, &qtd_bits);
 
+    printf("%u", qtd_bits);
     bitmap *mapa_de_bits = bitmapInit(qtd_bits);
     //gera o codigo binario final a ser escrito no arquivo compactado
     UpdateMapaDeBits(tabela_codificada, argv[1], mapa_de_bits);
 
     unsigned int tree_size = 0;
+    //descobre o tamanho em bits da arvore de huffman
     GetTreeBitsSize(binary_tree, 0, &tree_size);
 
+    //inicializa mapa de bit da arvore de huffman
     bitmap *tree_bitmap = bitmapInit(tree_size);
 
+    //gera o codigo binario da arvore
     CompactaHuffmanTree(binary_tree, aux_code, 0, tree_bitmap);
 
     //cria arquivo binario compactado
