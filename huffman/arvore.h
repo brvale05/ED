@@ -33,4 +33,14 @@ char GetTreeChar(Arvore *arv);
 
 int EhFolha(Arvore *arv);
 
+Arvore *DescompactaHuffmanTree(char *array_bits, int *index, int tam_max);
+
+char Le_Bit(char *array_bits, int *index);
+
+char Le_Caracter(char *array_bits, int *index);
+
+unsigned int Le_QtdBits(FILE *input_file);
+
+void imprimebinario(Arvore *raiz, int *flag);
+
 #endif

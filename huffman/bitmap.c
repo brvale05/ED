@@ -141,3 +141,39 @@ void bitmapLibera(bitmap *bm)
 	free(bm->contents);
 	free(bm);
 }
+
+bitmap *bitmapDescompacta(unsigned int max_size, FILE *input_file)
+{
+	bitmap *bm;
+	bm = (bitmap *)malloc(sizeof(bitmap));
+
+	bm->contents = calloc((max_size + 7)/8, sizeof(char));
+
+    fread(bm->contents, sizeof(char), (max_size + 7)/8, input_file);
+
+	// definir valores iniciais para tamanho maximo e tamanho atual
+	bm->max_size = max_size;
+	bm->length = max_size;
+
+	return bm;
+}
+
+void *PreencheBitsArray(char *array_bits, int tam, bitmap *tree_bm)
+{
+	for (int i = 0; i < tam; i++)
+	{
+		unsigned char car;
+		car = bitmapGetBit(tree_bm, i);
+
+		if (car)
+		{
+			array_bits[i] = '1';
+		}
+		else
+		{
+			array_bits[i] = '0';
+		}
+	}
+}
+
+

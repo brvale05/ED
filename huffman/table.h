@@ -27,4 +27,6 @@ void UpdateMapaDeBits(Tabela **vector, char *caminho, bitmap *map);
 
 void BinaryFileWrite(bitmap *map, bitmap *tree_map, unsigned int qtdbits_map, unsigned int qtdbits_treemap, char *caminho);
 
+void BinaryCodeDescompacta(Arvore *raiz, char *codigo, int id_profundidade, Tabela **vector);
+
 #endif

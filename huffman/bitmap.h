@@ -25,4 +25,8 @@ void bitmapAppendLeastSignificantBit(bitmap* bm, unsigned char bit);
 
 void bitmapLibera (bitmap* bm);
 
+bitmap *bitmapDescompacta(unsigned int max_size, FILE *input_file);
+
+void *PreencheBitsArray(char *array_bits, int tam, bitmap *tree_bm);
+
 #endif /*BITMAP_H_*/

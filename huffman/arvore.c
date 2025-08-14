@@ -131,21 +131,23 @@ void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap
 
     if (EhFolha(raiz))
     {
+        printf("1");
         bitmapAppendLeastSignificantBit(tree_bitmap, '1');
 
-        for(int i = 7; i >= 0; i--)
+        for (int i = 7; i >= 0; i--)
         {
             int bit = (raiz->caracter >> i) & 1;
 
-            if(bit)
+            if (bit)
             {
+                printf("1");
                 bitmapAppendLeastSignificantBit(tree_bitmap, '1');
             }
             else
             {
+                printf("0");
                 bitmapAppendLeastSignificantBit(tree_bitmap, '0');
             }
-            
         }
 
         return;
@@ -153,9 +155,11 @@ void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap
 
     if (raiz)
     {
+        printf("0");
         bitmapAppendLeastSignificantBit(tree_bitmap, '0');
         CompactaHuffmanTree(GetLeftTree(raiz), codigo, id_profundidade + 1, tree_bitmap);
 
+        printf("0");
         bitmapAppendLeastSignificantBit(tree_bitmap, '0');
         CompactaHuffmanTree(GetRightTree(raiz), codigo, id_profundidade + 1, tree_bitmap);
     }
@@ -181,5 +185,87 @@ char GetTreeChar(Arvore *arv)
 int EhFolha(Arvore *arv)
 {
     return arv->eh_folha;
+}
+
+Arvore *DescompactaHuffmanTree(char *array_bits, int *index, int tam_max)
+{
+
+    if (*index >= tam_max)
+        return NULL;
+
+    char bit = Le_Bit(array_bits, index);
+    *index = *index + 1;
+
+    if (bit == '1')
+    {
+        Arvore *raiz;
+
+        char car;
+
+        car = Le_Caracter(array_bits, index);
+
+        raiz = TreeConstruct(car, 0, EH_FOLHA);
+
+        return raiz;
+    }
+    else
+    {
+        Arvore *raiz = TreeConstruct(0, 0, !EH_FOLHA);
+
+        raiz->esq = DescompactaHuffmanTree(array_bits, index, tam_max);
+        raiz->dir = DescompactaHuffmanTree(array_bits, index, tam_max);
+
+        return raiz;
+    }
+}
+
+char Le_Bit(char *array_bits, int *index)
+{
+    return array_bits[*index];
+}
+
+char Le_Caracter(char *array_bits, int *index)
+{
+    char car = 0;
+    int i;
+
+    for (i = 0; i < 8; i++)
+    {
+        // Desloca para a esquerda
+        car <<= 1;
+
+        if (array_bits[*index] == '1')
+        {
+            car |= 1; // Ou 'car = car | 1;'
+        }
+
+        *index = *index + 1;
+    }
+
+    *index = *index + 1;
+
+    return car;
+}
+
+unsigned int Le_QtdBits(FILE *input_file)
+{
+    unsigned int qtdbits;;
+    fread(&qtdbits, sizeof(unsigned int), 1, input_file);
+
+    printf("Tamanho de bits: %u\n", qtdbits);
+
+    return qtdbits;
+}
+
+void imprimebinario(Arvore *raiz, int *flag)
+{
+
+    if (EhFolha(raiz))
+    {
+        printf("%c", raiz->caracter);
+        *flag = *flag + 1;
+    }
+
+    return;
 }
 
