@@ -2,6 +2,7 @@
 #define ARVORE_H
 
 #include "bitmap.h"
+#include <stdio.h>
 
 #define EH_FOLHA 1
 
@@ -41,6 +42,6 @@ char Le_Caracter(char *array_bits, int *index);
 
 unsigned int Le_QtdBits(FILE *input_file);
 
-void imprimebinario(Arvore *raiz, int *flag);
+void OriginalFileReconstruct(Arvore *raiz, int *flag, FILE *output_file);
 
 #endif

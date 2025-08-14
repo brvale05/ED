@@ -131,7 +131,7 @@ void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap
 
     if (EhFolha(raiz))
     {
-        printf("1");
+        //printf("1");
         bitmapAppendLeastSignificantBit(tree_bitmap, '1');
 
         for (int i = 7; i >= 0; i--)
@@ -140,12 +140,12 @@ void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap
 
             if (bit)
             {
-                printf("1");
+                //printf("1");
                 bitmapAppendLeastSignificantBit(tree_bitmap, '1');
             }
             else
             {
-                printf("0");
+                //printf("0");
                 bitmapAppendLeastSignificantBit(tree_bitmap, '0');
             }
         }
@@ -155,11 +155,11 @@ void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap
 
     if (raiz)
     {
-        printf("0");
+        //printf("0");
         bitmapAppendLeastSignificantBit(tree_bitmap, '0');
         CompactaHuffmanTree(GetLeftTree(raiz), codigo, id_profundidade + 1, tree_bitmap);
 
-        printf("0");
+        //printf("0");
         bitmapAppendLeastSignificantBit(tree_bitmap, '0');
         CompactaHuffmanTree(GetRightTree(raiz), codigo, id_profundidade + 1, tree_bitmap);
     }
@@ -252,17 +252,17 @@ unsigned int Le_QtdBits(FILE *input_file)
     unsigned int qtdbits;;
     fread(&qtdbits, sizeof(unsigned int), 1, input_file);
 
-    printf("Tamanho de bits: %u\n", qtdbits);
+    //printf("Tamanho de bits: %u\n", qtdbits);
 
     return qtdbits;
 }
 
-void imprimebinario(Arvore *raiz, int *flag)
+void OriginalFileReconstruct(Arvore *raiz, int *flag, FILE *output_file)
 {
 
     if (EhFolha(raiz))
     {
-        printf("%c", raiz->caracter);
+        fwrite(&raiz->caracter, sizeof(char), 1, output_file);
         *flag = *flag + 1;
     }
 

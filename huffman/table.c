@@ -123,7 +123,7 @@ void BinaryCodeConstruct(Arvore *raiz, char *codigo, int id_profundidade, Tabela
 
 void UpdateMapaDeBits(Tabela **vector, char *caminho, bitmap *map)
 {
-    FILE *input_file = OpenFile(caminho, "r");
+    FILE *input_file = OpenFile(caminho, "rb", 0);
 
     char car;
 
@@ -154,7 +154,7 @@ void UpdateMapaDeBits(Tabela **vector, char *caminho, bitmap *map)
 
 void BinaryFileWrite(bitmap *map, bitmap *tree_map, unsigned int qtdbits_map, unsigned int qtdbits_treemap, char *caminho)
 {
-    FILE *arquivo_entrada = OpenFile(caminho, "wb");
+    FILE *arquivo_entrada = OpenFile(caminho, "wb", 0);
 
     fwrite(&qtdbits_treemap, sizeof(unsigned int), 1, arquivo_entrada);
     fwrite(bitmapGetContents(tree_map), sizeof(char), (bitmapGetMaxSize(tree_map) + 7) / 8, arquivo_entrada);

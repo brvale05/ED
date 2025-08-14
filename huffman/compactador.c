@@ -31,6 +31,7 @@
 
 //     //cria um vetor de tabelas contendo cada caracter
 //     Tabela **tabela_codificada = TableVectorConstruct(TAM_MAX);
+  
 //     //atualiza o vetor e gera o codigo binario compactado de cada folha da arvore
 //     BinaryCodeConstruct(binary_tree, aux_code, 0, tabela_codificada, ascii, &qtd_bits);
 

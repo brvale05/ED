@@ -2,9 +2,30 @@
 #include <string.h>
 #include <stdlib.h>
 
-FILE *OpenFile(char *caminho, char *mode)
+FILE *OpenFile(char *caminho, char *mode, int flag_tipo)
 {
     FILE *input_file;
+    int aux = 0;
+
+    //recria o arquivo original
+    if(flag_tipo)
+    {
+        for (int i = 0; caminho[i] != '\0'; i++)
+        {
+            if(caminho[i] == '.')
+            {
+                aux++;
+            }
+
+            if(aux > 1)
+            {
+                caminho[i] = '\0';
+                input_file = fopen(caminho, "wb");
+                return input_file;
+            }
+        }
+        
+    }
     
     if(!strcmp(mode, "wb"))
     {
@@ -32,7 +53,7 @@ void CloseFile(FILE *f)
 
 void FrequencyCount(unsigned int *array, char *caminho)
 {    
-    FILE *input_file = OpenFile(caminho, "r");
+    FILE *input_file = OpenFile(caminho, "rb", 0);
     char car;
 
     int codigo_ascii;

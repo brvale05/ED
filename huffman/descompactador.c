@@ -11,7 +11,7 @@
 int main(int argc, char **argv)
 {
     int id = 0;
-    FILE *input_file = OpenFile(argv[1], "rb");
+    FILE *input_file = OpenFile(argv[1], "rb", !COMPACTA);
 
     unsigned int qtdbits_tree = Le_QtdBits(input_file);
 
@@ -36,6 +36,10 @@ int main(int argc, char **argv)
 
     Arvore *arv_aux = huffman_tree;
 
+    CloseFile(input_file);
+
+    FILE *output_file = OpenFile(argv[1], "wb", 1);
+
     int flag = 0;
 
     for (int i = 0; i < qtdbits_code; i++)
@@ -46,12 +50,12 @@ int main(int argc, char **argv)
         if (car)
         {
             arv_aux = GetRightTree(arv_aux);
-            imprimebinario(arv_aux, &flag);
+            OriginalFileReconstruct(arv_aux, &flag, output_file);
         }
         else
         {
             arv_aux = GetLeftTree(arv_aux);
-            imprimebinario(arv_aux, &flag);
+            OriginalFileReconstruct(arv_aux, &flag, output_file);
         }
 
         if (flag)
@@ -65,7 +69,7 @@ int main(int argc, char **argv)
     bitmapLibera(code_bitmap);
     TableVectorDestroy(tabela_codificada);
     huffman_tree = BinaryTreeDestroy(huffman_tree);
-    CloseFile(input_file);
+    CloseFile(output_file);
 
     return 0;
 }
