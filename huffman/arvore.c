@@ -3,10 +3,11 @@
 
 #include "bitmap.h"
 #include "arvore.h"
+#include "utils.h"
 
 struct Arvore
 {
-    char caracter;
+    unsigned char caracter;
     int num_ocorrencias;
     int eh_folha; // 1 para folha e 0 caso nao seja
     Arvore *esq;
@@ -177,7 +178,7 @@ Arvore *GetRightTree(Arvore *arv)
     return arv->dir;
 }
 
-char GetTreeChar(Arvore *arv)
+unsigned char GetTreeChar(Arvore *arv)
 {
     return arv->caracter;
 }
@@ -219,53 +220,6 @@ Arvore *DescompactaHuffmanTree(char *array_bits, int *index, int tam_max)
     }
 }
 
-char Le_Bit(char *array_bits, int *index)
-{
-    return array_bits[*index];
-}
 
-char Le_Caracter(char *array_bits, int *index)
-{
-    char car = 0;
-    int i;
 
-    for (i = 0; i < 8; i++)
-    {
-        // Desloca para a esquerda
-        car <<= 1;
-
-        if (array_bits[*index] == '1')
-        {
-            car |= 1; // Ou 'car = car | 1;'
-        }
-
-        *index = *index + 1;
-    }
-
-    *index = *index + 1;
-
-    return car;
-}
-
-unsigned int Le_QtdBits(FILE *input_file)
-{
-    unsigned int qtdbits;;
-    fread(&qtdbits, sizeof(unsigned int), 1, input_file);
-
-    //printf("Tamanho de bits: %u\n", qtdbits);
-
-    return qtdbits;
-}
-
-void OriginalFileReconstruct(Arvore *raiz, int *flag, FILE *output_file)
-{
-
-    if (EhFolha(raiz))
-    {
-        fwrite(&raiz->caracter, sizeof(char), 1, output_file);
-        *flag = *flag + 1;
-    }
-
-    return;
-}
 

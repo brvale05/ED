@@ -142,7 +142,7 @@ void bitmapLibera(bitmap *bm)
 	free(bm);
 }
 
-bitmap *bitmapDescompacta(unsigned int max_size, FILE *input_file)
+bitmap *BitMapDescompacta(unsigned int max_size, FILE *input_file)
 {
 	bitmap *bm;
 	bm = (bitmap *)malloc(sizeof(bitmap));
@@ -174,6 +174,42 @@ void *PreencheBitsArray(char *array_bits, int tam, bitmap *tree_bm)
 			array_bits[i] = '0';
 		}
 	}
+}
+
+unsigned int Le_QtdBits(FILE *input_file)
+{
+    unsigned int qtdbits;
+    fread(&qtdbits, sizeof(unsigned int), 1, input_file);
+
+    return qtdbits;
+}
+
+char Le_Bit(char *array_bits, int *index)
+{
+    return array_bits[*index];
+}
+
+char Le_Caracter(char *array_bits, int *index)
+{
+    char car = 0;
+    int i;
+
+    for (i = 0; i < 8; i++)
+    {
+        // Desloca para a esquerda
+        car <<= 1;
+
+        if (array_bits[*index] == '1')
+        {
+            car |= 1; // Ou 'car = car | 1;'
+        }
+
+        *index = *index + 1;
+    }
+
+    *index = *index + 1;
+
+    return car;
 }
 
 

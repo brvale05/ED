@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#define COMPACTA 1
+#define DESCOMPACTA 1
 
 #include <stdio.h>
 

@@ -13,7 +13,7 @@ Pilha *PilhaConstruct()
     Pilha *p = malloc(sizeof(Pilha));
     p->topo = 0;
 
-    p->trees = calloc(TAM_MAX, sizeof(Arvore *));
+    p->trees = calloc(TAM_MAX_PILHA, sizeof(Arvore *));
 
     return p;
 }
@@ -52,18 +52,22 @@ void OrdenaPilha(Pilha *p)
     qsort(p->trees, p->topo, sizeof(Arvore *), TreesCompare);
 }
 
-void PilhaVectorUpdate(Pilha *p, unsigned int *array)
+void PilhaPushBack(Pilha *p, unsigned int *array)
 {
-    for (int i = 0; i < TAM_MAX; i++)
+    for (int i = 0; i < 256; i++)
     {
         if (array[i] > 0)
         {
-            PilhaPush(p, TreeConstruct(i, array[i], EH_FOLHA));
+            if (!Cheia(p))
+            {
+                p->trees[p->topo] = TreeConstruct(i, array[i], EH_FOLHA);
+                p->topo++;
+            }
         }
     }
 }
 
-Arvore *BinaryTreeConstruct(Pilha *p)
+Arvore *HuffmanTreeConstruct(Pilha *p)
 {
     Arvore *root, *aux;
 
@@ -94,7 +98,7 @@ Arvore *BinaryTreeConstruct(Pilha *p)
 
 int Cheia(Pilha *p)
 {
-    if (p->topo == TAM_MAX - 1)
+    if (p->topo == TAM_MAX_PILHA - 1)
     {
         printf("Pilha Cheia!\n");
         return 1;

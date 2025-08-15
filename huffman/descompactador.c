@@ -1,75 +1,40 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
 
-#include "arvore.h"
-#include "table.h"
-#include "bitmap.h"
-#include "pilha.h"
-#include "utils.h"
+// #include "mapacodificacao.h"
+// #include "pilha.h"
 
-int main(int argc, char **argv)
-{
-    int id = 0;
-    FILE *input_file = OpenFile(argv[1], "rb", !COMPACTA);
+// int main(int argc, char **argv)
+// {
+//     int id = 0;
+//     FILE *input_file = OpenFile(argv[1], "rb", !DESCOMPACTA);
 
-    unsigned int qtdbits_tree = Le_QtdBits(input_file);
+//     unsigned int tree_qtdbits = Le_QtdBits(input_file);
+//     bitmap *tree_bitmap = BitMapDescompacta(tree_qtdbits, input_file);
 
-    bitmap *tree_bitmap = bitmapDescompacta(qtdbits_tree, input_file);
+//     unsigned int text_qtdbits = Le_QtdBits(input_file);
+//     bitmap *text_bitmap = BitMapDescompacta(text_qtdbits, input_file);
 
-    char tree_code[qtdbits_tree];
+//     CloseFile(input_file);
 
-    PreencheBitsArray(tree_code, qtdbits_tree, tree_bitmap);
+//     char tree_code[tree_qtdbits];
+//     PreencheBitsArray(tree_code, tree_qtdbits, tree_bitmap);
+//     Arvore *huffman_tree = DescompactaHuffmanTree(tree_code, &id, tree_qtdbits);
 
-    Arvore *huffman_tree = DescompactaHuffmanTree(tree_code, &id, qtdbits_tree);
+//     int tree_height = TreeHeight(huffman_tree);
+//     char aux_array[tree_height];
+    
+//     //cria um mapa de codificacao
+//     MapaCodificacao *map_decodifica = MapaCodificacaoConstruct(TAM_MAX_MAPA);
+//     BinaryCodeDescompacta(huffman_tree, aux_array, 0, map_decodifica);
 
-    unsigned int qtdbits_code = Le_QtdBits(input_file);
+//     OriginalFileReconstruct(huffman_tree, text_bitmap, argv[1]);
 
-    bitmap *code_bitmap = bitmapDescompacta(qtdbits_code, input_file);
+//     bitmapLibera(tree_bitmap);
+//     bitmapLibera(text_bitmap);
+//     MapDestroy(map_decodifica);
+//     huffman_tree = BinaryTreeDestroy(huffman_tree);
 
-    int size = TreeHeight(huffman_tree);
-    char aux_code[size];
-
-    // cria um vetor de tabelas contendo cada caracter
-    Tabela **tabela_codificada = TableVectorConstruct(TAM_MAX);
-    BinaryCodeDescompacta(huffman_tree, aux_code, 0, tabela_codificada);
-
-    Arvore *arv_aux = huffman_tree;
-
-    CloseFile(input_file);
-
-    FILE *output_file = OpenFile(argv[1], "wb", 1);
-
-    int flag = 0;
-
-    for (int i = 0; i < qtdbits_code; i++)
-    {
-        unsigned char car;
-        car = bitmapGetBit(code_bitmap, i);
-
-        if (car)
-        {
-            arv_aux = GetRightTree(arv_aux);
-            OriginalFileReconstruct(arv_aux, &flag, output_file);
-        }
-        else
-        {
-            arv_aux = GetLeftTree(arv_aux);
-            OriginalFileReconstruct(arv_aux, &flag, output_file);
-        }
-
-        if (flag)
-        {
-            arv_aux = huffman_tree;
-            flag = 0;
-        }
-    }
-
-    bitmapLibera(tree_bitmap);
-    bitmapLibera(code_bitmap);
-    TableVectorDestroy(tabela_codificada);
-    huffman_tree = BinaryTreeDestroy(huffman_tree);
-    CloseFile(output_file);
-
-    return 0;
-}
+//     return 0;
+// }

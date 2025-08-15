@@ -1,4 +1,5 @@
 #include "utils.h"
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -53,14 +54,14 @@ void CloseFile(FILE *f)
 
 void FrequencyCount(unsigned int *array, char *caminho)
 {    
-    FILE *input_file = OpenFile(caminho, "rb", 0);
-    char car;
+    FILE *input_file = OpenFile(caminho, "rb", !DESCOMPACTA);
+    unsigned char car;
 
-    int codigo_ascii;
+    unsigned int codigo_ascii;
 
     while (!feof(input_file))
     {
-        fread(&car, sizeof(char), 1, input_file);
+        fread(&car, sizeof(unsigned char), 1, input_file);
 
         if(feof(input_file))
         break;

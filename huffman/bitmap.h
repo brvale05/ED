@@ -6,6 +6,8 @@
 #ifndef BITMAP_H_
 #define BITMAP_H_
 
+#include <stdio.h>
+
 /**
  * Estrutura para representar um mapa de bits.
  */
@@ -25,8 +27,14 @@ void bitmapAppendLeastSignificantBit(bitmap* bm, unsigned char bit);
 
 void bitmapLibera (bitmap* bm);
 
-bitmap *bitmapDescompacta(unsigned int max_size, FILE *input_file);
+bitmap *BitMapDescompacta(unsigned int max_size, FILE *input_file);
 
 void *PreencheBitsArray(char *array_bits, int tam, bitmap *tree_bm);
+
+unsigned int Le_QtdBits(FILE *input_file);
+
+char Le_Bit(char *array_bits, int *index);
+
+char Le_Caracter(char *array_bits, int *index);
 
 #endif /*BITMAP_H_*/

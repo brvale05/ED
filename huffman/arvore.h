@@ -1,8 +1,9 @@
 #ifndef ARVORE_H
 #define ARVORE_H
 
-#include "bitmap.h"
 #include <stdio.h>
+
+#include "bitmap.h"
 
 #define EH_FOLHA 1
 
@@ -30,18 +31,10 @@ Arvore *GetLeftTree(Arvore *arv);
 
 Arvore *GetRightTree(Arvore *arv);
 
-char GetTreeChar(Arvore *arv);
+unsigned char GetTreeChar(Arvore *arv);
 
 int EhFolha(Arvore *arv);
 
 Arvore *DescompactaHuffmanTree(char *array_bits, int *index, int tam_max);
-
-char Le_Bit(char *array_bits, int *index);
-
-char Le_Caracter(char *array_bits, int *index);
-
-unsigned int Le_QtdBits(FILE *input_file);
-
-void OriginalFileReconstruct(Arvore *raiz, int *flag, FILE *output_file);
 
 #endif
