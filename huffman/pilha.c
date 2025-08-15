@@ -30,23 +30,6 @@ void PilhaDestroy(Pilha *p)
     }
 }
 
-void PilhaPush(Pilha *p, Arvore *arv)
-{
-    if (!Cheia(p))
-    {
-        p->trees[p->topo] = arv;
-        p->topo++;
-    }
-}
-
-void PilhaPrint(Pilha *p)
-{
-    for (int i = 0; i < p->topo; i++)
-    {
-        TreePrint(p->trees[i]);
-    }
-}
-
 void OrdenaPilha(Pilha *p)
 {
     qsort(p->trees, p->topo, sizeof(Arvore *), TreesCompare);

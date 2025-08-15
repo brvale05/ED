@@ -55,7 +55,6 @@ void BinaryCodeConstruct(Arvore *raiz, char *codigo, int id_profundidade, MapaCo
         unsigned char car = GetTreeChar(raiz);
         int codigo_ascii = car;
 
-        // construindo um vetor contendo o codigo binario compactado de cada caracter
         CodigoHuffman *h = CodigoHuffmanConstruct(codigo, id_profundidade, car);
 
         MapPushBack(map, h, codigo_ascii);
@@ -78,7 +77,7 @@ void BinaryCodeConstruct(Arvore *raiz, char *codigo, int id_profundidade, MapaCo
     return;
 }
 
-void BitMapCompacta(MapaCodificacao *decodifica_map, char *caminho, bitmap *map)
+void BitMapCompacta(MapaCodificacao *codifica_map, char *caminho, bitmap *map)
 {
     FILE *input_file = OpenFile(caminho, "rb", !DESCOMPACTA);
 
@@ -97,7 +96,7 @@ void BitMapCompacta(MapaCodificacao *decodifica_map, char *caminho, bitmap *map)
 
         codigo_ascii = car;
 
-        aux = decodifica_map->tabela[codigo_ascii];
+        aux = codifica_map->tabela[codigo_ascii];
 
         for (int i = 0; i < GetTamHuffmanCode(aux); i++)
         {
@@ -117,7 +116,6 @@ void BinaryCodeDescompacta(Arvore *raiz, char *codigo, int id_profundidade, Mapa
         unsigned char car = GetTreeChar(raiz);
         unsigned int codigo_ascii = car;
 
-        // construindo um vetor contendo o codigo binario compactado de cada caracter
         CodigoHuffman *h = CodigoHuffmanConstruct(codigo, id_profundidade, car);
         MapPushBack(map, h, codigo_ascii);
         return;

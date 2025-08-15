@@ -36,24 +36,6 @@ Arvore *TreePushBack(Arvore *raiz1, Arvore *raiz2)
     return arv;
 }
 
-void TreePrint(Arvore *arv)
-{
-    printf("codigo: %d; caracter: %c; ocorrencias: %d\n", arv->caracter, arv->caracter, arv->num_ocorrencias);
-}
-
-void BinaryTreePrint(Arvore *arv)
-{
-    if (arv)
-    {
-        BinaryTreePrint(arv->esq);
-        if (arv->eh_folha)
-        {
-            printf("codigo: %d; caracter: %c; ocorrencias: %d\n", arv->caracter, arv->caracter, arv->num_ocorrencias);
-        }
-        BinaryTreePrint(arv->dir);
-    }
-}
-
 Arvore *BinaryTreeDestroy(Arvore *arv)
 {
     if (arv)
@@ -110,17 +92,14 @@ void GetTreeBitsSize(Arvore *raiz, int id_profundidade, unsigned int *size)
     if (raiz->eh_folha)
     {
         *size = *size + 1 + 8;
-        // printf("1");
         return;
     }
 
     if (raiz)
     {
         *size = *size + 1;
-        // printf("0");
         GetTreeBitsSize(raiz->esq, id_profundidade + 1, size);
         *size = *size + 1;
-        // printf("0");
         GetTreeBitsSize(raiz->dir, id_profundidade + 1, size);
     }
 
@@ -132,7 +111,6 @@ void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap
 
     if (EhFolha(raiz))
     {
-        //printf("1");
         bitmapAppendLeastSignificantBit(tree_bitmap, '1');
 
         for (int i = 7; i >= 0; i--)
@@ -141,12 +119,10 @@ void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap
 
             if (bit)
             {
-                //printf("1");
                 bitmapAppendLeastSignificantBit(tree_bitmap, '1');
             }
             else
             {
-                //printf("0");
                 bitmapAppendLeastSignificantBit(tree_bitmap, '0');
             }
         }
@@ -156,11 +132,9 @@ void CompactaHuffmanTree(Arvore *raiz, char *codigo, int id_profundidade, bitmap
 
     if (raiz)
     {
-        //printf("0");
         bitmapAppendLeastSignificantBit(tree_bitmap, '0');
         CompactaHuffmanTree(GetLeftTree(raiz), codigo, id_profundidade + 1, tree_bitmap);
 
-        //printf("0");
         bitmapAppendLeastSignificantBit(tree_bitmap, '0');
         CompactaHuffmanTree(GetRightTree(raiz), codigo, id_profundidade + 1, tree_bitmap);
     }

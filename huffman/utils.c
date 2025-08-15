@@ -8,7 +8,7 @@ FILE *OpenFile(char *caminho, char *mode, int flag_tipo)
     FILE *input_file;
     int aux = 0;
 
-    //recria o arquivo original
+    //if flag == 1: recria o arquivo original
     if(flag_tipo)
     {
         for (int i = 0; caminho[i] != '\0'; i++)

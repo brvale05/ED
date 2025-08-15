@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "mapacodificacao.h"
 #include "pilha.h"
@@ -24,8 +23,7 @@ int main(int argc, char **argv)
 
     int tree_height = TreeHeight(huffman_tree);
     char aux_array[tree_height];
-    
-    //cria um mapa de codificacao
+
     MapaCodificacao *map_decodifica = MapaCodificacaoConstruct(TAM_MAX_MAPA);
     BinaryCodeDescompacta(huffman_tree, aux_array, 0, map_decodifica);
 

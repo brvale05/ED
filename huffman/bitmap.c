@@ -201,7 +201,7 @@ char Le_Caracter(char *array_bits, int *index)
 
         if (array_bits[*index] == '1')
         {
-            car |= 1; // Ou 'car = car | 1;'
+            car |= 1; // 'Ou' com 1
         }
 
         *index = *index + 1;
